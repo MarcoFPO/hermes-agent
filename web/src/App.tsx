@@ -95,6 +95,7 @@ const PairingPage = lazy(() => import("@/pages/PairingPage"));
 const ChannelsPage = lazy(() => import("@/pages/ChannelsPage"));
 const WebhooksPage = lazy(() => import("@/pages/WebhooksPage"));
 const SystemPage = lazy(() => import("@/pages/SystemPage"));
+const HUDPage = lazy(() => import("@/pages/HUDPage"));
 const ChatPage = lazy(() => import("@/pages/ChatPage"));
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
@@ -158,6 +159,7 @@ const BUILTIN_ROUTES_CORE: Record<string, ComponentType> = {
   "/sessions": SessionsPage,
   "/files": FilesPage,
   "/analytics": AnalyticsPage,
+  "/hud": HUDPage,
   "/models": ModelsPage,
   "/logs": LogsPage,
   "/cron": CronPage,
@@ -197,6 +199,7 @@ const BUILTIN_NAV_REST: NavItem[] = [
     label: "Analytics",
     icon: BarChart3,
   },
+  { path: "/hud", label: "HUD", icon: Radio },
   {
     path: "/models",
     labelKey: "models",
