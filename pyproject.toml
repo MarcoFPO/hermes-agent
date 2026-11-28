@@ -37,7 +37,7 @@ dependencies = [
   # extra and gets lazy-installed via `tools/lazy_deps.py` when the
   # user picks that backend. Smaller `dependencies` = smaller blast
   # radius for the next supply-chain attack.
-  "openai==3.57.0",
+  "openai==3.60.0",
   "certifi==2026.11.20",
   "python-dotenv==1.2.4",
   "fire==0.7.1",
@@ -71,7 +71,7 @@ dependencies = [
   # hermes_cli/main.py drops to naive requirement parsing. Pure-Python
   # py3-none-any wheel, no compiled extensions — safe to ship everywhere.
   # Pinned to the version already resolved in uv.lock (no resolution churn).
-  "packaging==26.3",
+  "packaging==26.4",
   # Markdown -> HTML conversion for rich message delivery (Matrix
   # `formatted_body`, and the `send_message` tool's HTML path). Now on the
   # DEFAULT delivery path, not matrix-specific: without it both
@@ -81,7 +81,7 @@ dependencies = [
   # (~108KB, no compiled extensions, no platform constraints), so unlike the
   # matrix extra's `mautrix`/`python-olm` it's safe to ship everywhere — keeps
   # it out of the lazy-install path that exists only for the heavy matrix deps.
-  "Markdown==3.11.3",
+  "Markdown==3.11.4",
   # Skills Hub (GitHub App JWT auth — optional, only needed for bot identity)
   "PyJWT[crypto]==2.15.1",  # PYSEC-2026-175/177/178/179
   # urllib3 2.7.0 fixes GHSA-mf9v-mfxr-j63j (decompression-bomb bypass)
@@ -171,22 +171,22 @@ dependencies = [
 [project.optional-dependencies]
 # Native Anthropic provider — only needed when provider=anthropic (not via
 # OpenRouter or other aggregators).
-anthropic = ["anthropic==2.12.0"]  # CVE-2026-34450, CVE-2026-34452
+anthropic = ["anthropic==2.14.0"]  # CVE-2026-34450, CVE-2026-34452
 # Web search backends — each only loaded when the user picks it as their
 # search provider (configured via `hermes tools` or config.yaml).
 exa = ["exa-py==2.29.0"]
-firecrawl = ["firecrawl-py==4.57.0"]
-parallel-web = ["parallel-web==1.3.7"]
+firecrawl = ["firecrawl-py==4.59.0"]
+parallel-web = ["parallel-web==1.5.0"]
 # Image generation backends
 fal = ["fal-client==1.0.3"]
 # Edge TTS — default TTS provider but still optional (users can pick
 # ElevenLabs / OpenAI / MiniMax instead).
 edge-tts = ["edge-tts==7.3.1"]
 modal = ["modal==1.6.4"]
-daytona = ["daytona==2.1.0"]
-vercel = ["vercel==0.13.1"]
-hindsight = ["hindsight-client==1.2.3"]
-dev = ["debugpy==1.8.22", "pytest==9.2.0", "pytest-asyncio==1.5.0", "mcp==2.3.0", "httpx2==2.16.2", "starlette==1.10.0", "ty==0.0.107", "ruff==0.17.6", "setuptools==84.2.1"]  # starlette: CVE-2026-48710; setuptools: 83 (torch >=2.13 requires setuptools 83)
+daytona = ["daytona==2.3.0"]
+vercel = ["vercel==0.13.3"]
+hindsight = ["hindsight-client==1.3.0"]
+dev = ["debugpy==1.8.22", "pytest==9.2.0", "pytest-asyncio==1.5.0", "mcp==2.3.0", "httpx2==2.16.2", "starlette==1.10.0", "ty==0.0.112", "ruff==0.17.6", "setuptools==84.2.1"]  # starlette: CVE-2026-48710; setuptools: 83 (torch >=2.13 requires setuptools 83)
 messaging = ["python-telegram-bot[webhooks]==22.8", "discord.py[voice]==2.7.1", "aiohttp==3.14.5", "brotlicffi==1.2.1.0", "slack-bolt==1.30.0", "slack-sdk==3.48.0", "qrcode==8.2"]  # aiohttp 3.14.3: prior CVEs + GHSA-cq5v-8q36-5273/GHSA-mfx4-hv73-q22v/GHSA-mq44-7p77-q5h7
 cron = []  # croniter is now a core dependency; this extra kept for back-compat
 slack = ["slack-bolt==1.30.0", "slack-sdk==3.48.0", "aiohttp==3.14.5"]
@@ -197,7 +197,7 @@ matrix = ["mautrix[encryption]==0.21.2", "aiosqlite==0.22.1", "asyncpg==0.32.0",
 # and XXE. aiohttp/httpx are already in [messaging]; defusedxml lands
 # here to keep the dependency local to wecom_callback's threat model.
 wecom = ["defusedxml==0.7.1"]
-tts-premium = ["elevenlabs==2.79.0"]
+tts-premium = ["elevenlabs==2.80.0"]
 voice = [
   # Local STT pulls in wheel-only transitive deps (ctranslate2, onnxruntime).
   "faster-whisper==1.2.1",
@@ -213,7 +213,7 @@ voice = [
 wake = [
   "openwakeword==0.6.0",
   "onnxruntime==1.32.0",
-  "sherpa-onnx==2.0.2",
+  "sherpa-onnx==2.0.3",
   "sentencepiece==0.2.3",
   "pvporcupine==4.0.3",
   "sounddevice==0.5.6",
@@ -222,7 +222,7 @@ wake = [
   # (dscripka/openWakeWord#336), so the wake word runs on tflite there.
   # Upstream declares tflite-runtime for Linux only; ai-edge-litert is the
   # macOS equivalent, bridged in tools/wake_word.py.
-  "ai-edge-litert==2.4.0; platform_system == 'Darwin'",
+  "ai-edge-litert==2.4.1; platform_system == 'Darwin'",
 ]
 honcho = ["honcho-ai==2.9.0"]
 # Cloud memory providers — opt-in, lazy-installed via tools/lazy_deps.py
@@ -279,14 +279,14 @@ acp = ["agent-client-protocol==0.9.0"]
 # tools/lazy_deps.py (stt.mistral / tts.mistral) at first use — deliberately
 # NOT re-added to [all] so a future quarantined release can't break fresh
 # installs (see [all] policy comment below).
-mistral = ["mistralai==3.8.0"]
+mistral = ["mistralai==3.9.0"]
 # OTLP gateway monitoring export (optional). Provides the OpenTelemetry SDK +
 # OTLP/HTTP exporter for monitoring.gateway_health_export. Lazy-installed via
 # tools/lazy_deps.py on first use; never a core dependency and deliberately
 # NOT in [all].
 otlp = ["opentelemetry-sdk==1.45.2", "opentelemetry-exporter-otlp-proto-http==1.45.2"]
-bedrock = ["boto3==1.44.9"]
-vertex = ["google-auth==2.63.0"]
+bedrock = ["boto3==1.44.13"]
+vertex = ["google-auth==2.63.1"]
 azure-identity = ["azure-identity==1.27.0"]
 termux = [
   # Baseline Android / Termux path for reliable fresh installs.
@@ -309,14 +309,14 @@ termux-all = [
   "hermes-agent[pty]",
 ]
 dingtalk = ["dingtalk-stream==0.24.3", "alibabacloud-dingtalk==2.2.67", "qrcode==8.2"]
-feishu = ["lark-oapi==1.8.0", "qrcode==8.2"]
+feishu = ["lark-oapi==1.9.0", "qrcode==8.2"]
 google = [
   # Required by the google-workspace skill (Gmail, Calendar, Drive, Contacts,
   # Sheets, Docs).  Declared here so dev environments (`uv sync --extra google`)
   # and packagers ship them without hitting runtime `pip install` paths that
   # fail in environments without pip (e.g. Nix-managed Python).
   "google-api-python-client==2.202.0",
-  "google-auth==2.63.0",
+  "google-auth==2.63.1",
   "google-auth-oauthlib==1.5.0",
   "google-auth-httplib2==0.4.4",
   # The Google SDKs permit older vulnerable transitives, so unlocked installs
@@ -394,7 +394,7 @@ override-dependencies = [
   # Remove this line when alibabacloud-tea-openapi lifts the cap.
   "cryptography>=50,<51",
 ]
-exclude-newer = "2026-11-21T03:00:00Z"  # Deps Update 2026-11-21: statt "14 days" (Betreiber-Vorgabe: neueste Versionen)
+exclude-newer = "2026-11-28T03:00:00Z"  # Deps Update 2026-11-28: statt "14 days" (Betreiber-Vorgabe: neueste Versionen)
 # h2: temporary exclude-newer exception for the CVE-2026-71554 (GHSA-6hr6-w5qg-qmwg,
 # request-smuggling) fix in 4.4.1, published 2026-08-03. Remove after 2026-08-17.
 # aiohttp, cryptography: same shape — the advisory fixes are newer than the
